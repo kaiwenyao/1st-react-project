@@ -83,6 +83,55 @@
       "date": "2023-04-03T11:14:56.036Z",
       "useFor": "food",
       "id": 19
-    }
+    },
+    {
+    "type": "pay",
+    "money": -50,
+    "date": "2025-11-02 12:30:00",
+    "useFor": "food",
+    "id": 101
+  },
+  {
+    "type": "income",
+    "money": 15000,
+    "date": "2025-11-05 09:00:00",
+    "useFor": "salary",
+    "id": 102
+  },
+  {
+    "type": "pay",
+    "money": -28,
+    "date": "2025-11-11 15:45:00",
+    "useFor": "drinks",
+    "id": 103
+  },
+  {
+    "type": "pay",
+    "money": -200,
+    "date": "2025-11-15 10:20:00",
+    "useFor": "travel",
+    "id": 104
+  },
+  {
+    "type": "pay",
+    "money": -680,
+    "date": "2025-11-20 18:00:00",
+    "useFor": "shopping",
+    "id": 105
+  },
+  {
+    "type": "pay",
+    "money": -35,
+    "date": "2025-11-25 08:30:00",
+    "useFor": "food",
+    "id": 106
+  },
+  {
+    "type": "income",
+    "money": 2000,
+    "date": "2025-11-28 14:00:00",
+    "useFor": "bonus",
+    "id": 107
+  }
   ]
 }

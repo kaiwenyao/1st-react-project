@@ -1,6 +1,6 @@
 import { NavBar, DatePicker } from "antd-mobile";
 import "./index.scss";
-import { useEffect, useEffectEvent, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import classNames from "classnames";
 import dayjs from "dayjs";
 import { useSelector } from "react-redux";
@@ -8,6 +8,7 @@ import _ from "lodash";
 const Month = () => {
   // 按月做数据的分组
   const billList = useSelector((state) => state.bill.billList);
+  // 这里的billList列表是通过Layout组件中的getBillList进行了获取
   const monthGroup = useMemo(() => {
     // return 出去计算之后的值
     return _.groupBy(billList, (item) => dayjs(item.date).format("YYYY-MM"));
@@ -52,6 +53,13 @@ const Month = () => {
   //   console.log(currentMonthList);
   // }, [currentMonthList])
 
+  // 初始化的时候把当前月份的数据渲染出来
+  useEffect(() => {
+    const nowDate = dayjs().format("YYYY-MM");
+    if (monthGroup[nowDate]) {
+      setCurrentMonthList(monthGroup[nowDate]);
+    }
+  }, [monthGroup]);
   return (
     <div className="monthlyBill">
       <NavBar className="nav" backArrow={false}>
