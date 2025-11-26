@@ -1,12 +1,16 @@
 .monthlyBill {
   --ka-text-color: #191d26;
   height: 100%;
-  background: linear-gradient(180deg, #ffffff, #f5f5f5 100%);
-  background-size: 100% 240px;
+  // background: linear-gradient(180deg, #ffffff, #f5f5f5 100%);
+  // background-size: 100% 240px;
   background-repeat: no-repeat;
   background-color: rgba(245, 245, 245, 0.9);
+  // background-color: black;
   color: var(--ka-text-color);
-
+  /* 👇 新增这几行 Flex 布局代码 */
+  display: flex;
+  flex-direction: column; /* 垂直排列 */
+  overflow: hidden; /* 防止整体溢出 */
   .nav {
     --adm-font-size-10: 16px;
     color: #121826;
@@ -17,7 +21,12 @@
   }
 
   .content {
-    height: 573px;
+    // height: 573px;
+    // height: 100%;
+    /* ✅ 改为这一行：自动占满剩余空间 */
+    flex: 1;
+    /* 必须保留 overflow-y: scroll 才能让内部滚动 */
+    overflow-y: scroll;
     padding: 0 10px;
     overflow-y: scroll;
     -ms-overflow-style: none; /* Internet Explorer 10+ */
