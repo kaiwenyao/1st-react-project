@@ -3,9 +3,17 @@
   --ka-color: #69ae78;
   --ka-border-color: #191d26;
 
-  height: 100%;
+  // height: 100%;
+  /* ✅ 改为下面这4行：强制占满整个屏幕视口 */
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100%;
   background-color: var(--ka-bg-color);
-
+  /* 👇 新增以下 Flex 布局代码 */
+  display: flex;
+  flex-direction: column; /* 让子元素垂直排列 */
+  overflow: hidden; /* 防止整个页面出现滚动条 */
   .nav {
     --adm-font-size-10: 16px;
     color: #121826;
@@ -93,9 +101,11 @@
   .container {
   }
   .kaTypeList {
-    height: 490px;
+    // height: 490px;
+    /* 👇 新增 flex: 1，意思是占据所有剩余空间 */
+    flex: 1;
     padding: 20px 11px;
-    padding-bottom: 70px;
+    // padding-bottom: 70px;
     overflow-y: scroll;
     background: #ffffff;
     border-radius: 20px 20px 0 0;
@@ -147,23 +157,27 @@
   }
 
   .btns {
-    position: fixed;
-    bottom: 15px;
+    // position: fixed;
+    // bottom: 15px;
+    /* 👇 让它自己在文档流中占位 */
     width: 100%;
     text-align: center;
-
+    padding: 15px 0; /* 给按钮上下加点间距 */
+    background-color: white;
+    /* 防止被压缩 */
+    flex-shrink: 0;
     .btn {
-    width: 200px;
-    --border-width: 0;
-    --background-color: #fafafa;
-    --text-color: #616161;
-    &:first-child {
-    margin-right: 15px;
-    }
+      width: 200px;
+      --border-width: 0;
+      --background-color: #fafafa;
+      --text-color: #616161;
+      &:first-child {
+        margin-right: 15px;
+      }
     }
     .btn.save {
-    --background-color: var(--ka-bg-color);
-    --text-color: var(--ka-color);
-    }
+      --background-color: var(--ka-bg-color);
+      --text-color: var(--ka-color);
     }
   }
+}
