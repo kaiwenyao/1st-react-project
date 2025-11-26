@@ -146,6 +146,13 @@
       "money": -120,
       "date": "2025-11-26T16:49:51.129Z",
       "useFor": "drinks"
+    },
+    {
+      "id": "890a",
+      "type": "pay",
+      "money": -120,
+      "date": "2025-07-23T23:00:00.000Z",
+      "useFor": "dessert"
     }
   ]
 }
