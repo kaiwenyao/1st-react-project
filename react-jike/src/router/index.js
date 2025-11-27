@@ -5,7 +5,7 @@ import { AuthRoute } from "@/components/AuthRoute";
 import Home from "@/pages/Home";
 import Article from "@/pages/Article";
 import Publish from "@/pages/Publish";
-
+import { Navigate } from "react-router-dom";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -15,6 +15,10 @@ const router = createBrowserRouter([
       </AuthRoute>
     ),
     children: [
+      {
+        index: true,
+        element: <Navigate to="home" replace />,
+      },
       {
         path: "home",
         element: <Home />,
