@@ -3,12 +3,15 @@ import { Card, Form, Input, Button } from "antd";
 import logo from "@/assets/logo.png";
 
 const Login = () => {
+  const onFinish = (value) => {
+    console.log(value);
+  };
   return (
     <div className="login">
       <Card className="login-container">
         <img className="login-logo" src={logo} alt="" />
         {/* 登录表单 */}
-        <Form validateTrigger="onBlur">
+        <Form validateTrigger="onBlur" onFinish={onFinish}>
           <Form.Item
             name="mobile"
             // 多条校验逻辑 第一条通过之后再看第二条
