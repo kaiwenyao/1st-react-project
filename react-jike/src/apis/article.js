@@ -36,6 +36,15 @@ export const deleteArticleAPI = (id) => {
 export const getArticleById = (id) => {
   return request({
     url: `/mp/articles/${id}`,
-    method: "GET"
+    method: "GET",
+  });
+};
+
+// 编辑
+export const updateArticleAPI = (data) => {
+  return request({
+    url: `/mp/articles/${data.id}`,
+    method: "PUT",
+    data,
   });
 };

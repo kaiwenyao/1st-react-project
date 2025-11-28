@@ -16,7 +16,11 @@ import "./index.scss";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import { useEffect, useState } from "react";
-import { createArticleAPI, getArticleById } from "@/apis/article";
+import {
+  createArticleAPI,
+  getArticleById,
+  updateArticleAPI,
+} from "@/apis/article";
 import { useChannel } from "@/hooks/useChannel";
 
 const { Option } = Select;
@@ -37,11 +41,25 @@ const Publish = () => {
       content,
       cover: {
         type: imageType,
-        images: imageList.map((item) => item.response.data.url),
+        // 这里的url处理逻辑只对于新增
+        images: imageList.map((item) => {
+          if (item.response) {
+            return item.response.data.url;
+          } else {
+            return item.url;
+          }
+        }),
       },
       channel_id,
     };
-    createArticleAPI(requestData);
+    if (articleId) {
+      updateArticleAPI({
+        ...requestData,
+        id: articleId,
+      });
+    } else {
+      createArticleAPI(requestData);
+    }
   };
   const [imageList, setImageList] = useState([]);
   // 上传回调
