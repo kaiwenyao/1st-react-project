@@ -24,3 +24,10 @@ export const getArticleListAPI = (params) => {
     params,
   });
 };
+// 删除
+export const deleteArticleAPI = (id) => {
+  return request({
+    url: `/mp/articles/${id}`,
+    method: "DELETE",
+  });
+};

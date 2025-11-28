@@ -7,6 +7,8 @@ import {
   Radio,
   DatePicker,
   Select,
+  Popconfirm,
+  message,
 } from "antd";
 import locale from "antd/es/date-picker/locale/zh_CN";
 // 引入汉化包 时间选择器 为中文
@@ -15,7 +17,7 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import img404 from "@/assets/error.png";
 import { useChannel } from "@/hooks/useChannel";
 import { useEffect, useState } from "react";
-import { getArticleListAPI } from "@/apis/article";
+import { deleteArticleAPI, getArticleListAPI } from "@/apis/article";
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
@@ -70,12 +72,20 @@ const Article = () => {
         return (
           <Space size="middle">
             <Button type="primary" shape="circle" icon={<EditOutlined />} />
-            <Button
-              type="primary"
-              danger
-              shape="circle"
-              icon={<DeleteOutlined />}
-            />
+            <Popconfirm
+              title="删除文章"
+              description="确认删除文章吗？"
+              onConfirm={() => onConfrim(data)}
+              okText="确认"
+              cancelText="取消"
+            >
+              <Button
+                type="primary"
+                danger
+                shape="circle"
+                icon={<DeleteOutlined />}
+              />
+            </Popconfirm>
           </Space>
         );
       },
@@ -120,6 +130,18 @@ const Article = () => {
       ...reqData,
       page,
     });
+  };
+  // 删除
+  const onConfrim = async (data) => {
+    try {
+      const res = await deleteArticleAPI(data.id);
+      message.success("删除成功！");
+      setReqData({
+        ...reqData,
+      });
+    } catch (error) {
+      message.error("删除失败！");
+    }
   };
   return (
     <div>
