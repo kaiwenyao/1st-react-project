@@ -31,3 +31,11 @@ export const deleteArticleAPI = (id) => {
     method: "DELETE",
   });
 };
+
+// 获取详情
+export const getArticleById = (id) => {
+  return request({
+    url: `/mp/articles/${id}`,
+    method: "GET"
+  });
+};
