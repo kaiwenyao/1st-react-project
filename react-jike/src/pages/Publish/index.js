@@ -16,21 +16,13 @@ import "./index.scss";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import { useEffect, useState } from "react";
-import { createArticleAPI, getChannelAPI } from "@/apis/article";
+import { createArticleAPI } from "@/apis/article";
+import { useChannel } from "@/hooks/useChannel";
 
 const { Option } = Select;
 
 const Publish = () => {
-  // 获取频道列表
-  const [channelList, setChannelList] = useState([]);
-  useEffect(() => {
-    // 调用接口获取频道列表
-    const getChannelList = async () => {
-      const res = await getChannelAPI();
-      setChannelList(res.data.channels);
-    };
-    getChannelList();
-  }, []);
+  const { channelList } = useChannel();
   // 提交表单
   const onFinish = (formData) => {
     // 校验图片数量是否相等
