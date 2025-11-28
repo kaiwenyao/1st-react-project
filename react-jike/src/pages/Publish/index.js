@@ -63,11 +63,26 @@ const Publish = () => {
     // 通过id获取数据
     const getArticleDetail = async () => {
       const res = await getArticleById(articleId);
-      form.setFieldsValue(res.data);
+      const data = res.data;
+      form.setFieldsValue({
+        ...res.data,
+        type: data.cover.type,
+      });
+      // 回填图片列表
+      setImageType(data.cover.type);
+      // 显示图片({url: ""})
+      setImageList(
+        data.cover.images.map((url) => {
+          return { url };
+        })
+      );
     };
     // 调用实例方法 进行回填
-    getArticleDetail();
-  }, [articleId]);
+    // 只有有id的时候才调用这个函数
+    if (articleId) {
+      getArticleDetail();
+    }
+  }, [articleId, form]);
   return (
     <div className="publish">
       <Card
@@ -75,7 +90,7 @@ const Publish = () => {
           <Breadcrumb
             items={[
               { title: <Link to={"/"}>首页</Link> },
-              { title: "发布文章" },
+              { title: `${articleId ? "编辑" : "发布"}文章` },
             ]}
           />
         }
@@ -126,6 +141,7 @@ const Publish = () => {
                 name="image"
                 onChange={onChange}
                 maxCount={imageType}
+                fileList={imageList}
               >
                 <div style={{ marginTop: 8 }}>
                   <PlusOutlined />
