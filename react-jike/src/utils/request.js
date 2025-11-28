@@ -1,6 +1,7 @@
 // axios 封装
 import axios from "axios";
-import { getToken } from "./token";
+import { getToken, removeToken } from "./token";
+import router from "@/router";
 // 根域名配置
 // 超时时间
 const request = axios.create({
@@ -30,6 +31,12 @@ request.interceptors.response.use(
     return response.data;
   },
   (error) => {
+    // 401 token 失效
+    if (error.response.status === 401) {
+      removeToken();
+      router.navigate("/login");
+      window.location.reload();
+    }
     return Promise.reject(error);
   }
 );
