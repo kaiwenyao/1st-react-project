@@ -14,10 +14,37 @@ import { Link } from "react-router-dom";
 import "./index.scss";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
+import { useEffect, useState } from "react";
+import { createArticleAPI, getChannelAPI } from "@/apis/article";
 
 const { Option } = Select;
 
 const Publish = () => {
+  // 获取频道列表
+  const [channelList, setChannelList] = useState([]);
+  useEffect(() => {
+    // 调用接口获取频道列表
+    const getChannelList = async () => {
+      const res = await getChannelAPI();
+      setChannelList(res.data.channels);
+    };
+    getChannelList();
+  }, []);
+  // 提交表单
+  const onFinish = (formData) => {
+    // 处理表单数据
+    const { title, content, channel_id } = formData;
+    const requestData = {
+      title,
+      content,
+      cover: {
+        type: 0,
+        images: [],
+      },
+      channel_id,
+    };
+    createArticleAPI(requestData);
+  };
   return (
     <div className="publish">
       <Card
@@ -34,6 +61,7 @@ const Publish = () => {
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 16 }}
           initialValues={{ type: 1 }}
+          onFinish={onFinish}
         >
           <Form.Item
             label="标题"
@@ -48,7 +76,11 @@ const Publish = () => {
             rules={[{ required: true, message: "请选择文章频道" }]}
           >
             <Select placeholder="请选择文章频道" style={{ width: 400 }}>
-              <Option value={0}>推荐</Option>
+              {channelList.map((item) => (
+                <Option key={item.id} value={item.id}>
+                  {item.name}
+                </Option>
+              ))}
             </Select>
           </Form.Item>
           <Form.Item
