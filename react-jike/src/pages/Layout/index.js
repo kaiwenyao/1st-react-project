@@ -16,7 +16,8 @@ const { Header, Sider } = Layout;
 const items = [
   {
     label: "首页",
-    key: "/",
+    key: "/home",
+    // 这里用 / 和 /home 都可以
     icon: <HomeOutlined />,
   },
   {
@@ -39,11 +40,10 @@ const GeekLayout = () => {
   };
   // 反向高亮
   const location = useLocation();
-  let selectedKey = location.pathname;
-
-  if (selectedKey === "/home") {
-    selectedKey = "/";
-  }
+  const selectedKey =
+    items.find(
+      (item) => item.key !== "/" && location.pathname.startsWith(item.key)
+    )?.key || "/";
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchUserInfo());
