@@ -8,6 +8,7 @@ import {
   Upload,
   Space,
   Select,
+  message,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
@@ -32,14 +33,17 @@ const Publish = () => {
   }, []);
   // 提交表单
   const onFinish = (formData) => {
+    // 校验图片数量是否相等
+    if (imageList.length !== imageType)
+      return message.warning("封面类型的图片数量不匹配！");
     // 处理表单数据
     const { title, content, channel_id } = formData;
     const requestData = {
       title,
       content,
       cover: {
-        type: 0,
-        images: [],
+        type: imageType,
+        images: imageList.map((item) => item.response.data.url),
       },
       channel_id,
     };
@@ -56,6 +60,7 @@ const Publish = () => {
   const onTypeChange = (e) => {
     setImageType(e.target.value);
   };
+
   return (
     <div className="publish">
       <Card
@@ -71,7 +76,7 @@ const Publish = () => {
         <Form
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 16 }}
-          initialValues={{ type: imageType}}
+          initialValues={{ type: imageType }}
           onFinish={onFinish}
         >
           <Form.Item
