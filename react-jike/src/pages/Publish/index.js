@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 import "./index.scss";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { createArticleAPI } from "@/apis/article";
 import { useChannel } from "@/hooks/useChannel";
 
@@ -24,6 +24,8 @@ const { Option } = Select;
 const Publish = () => {
   const { channelList } = useChannel();
   // 提交表单
+  // 定义状态枚举
+
   const onFinish = (formData) => {
     // 校验图片数量是否相等
     if (imageList.length !== imageType)

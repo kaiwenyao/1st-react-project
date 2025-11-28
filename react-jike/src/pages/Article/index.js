@@ -21,6 +21,10 @@ const { RangePicker } = DatePicker;
 
 const Article = () => {
   const { channelList } = useChannel();
+  const status = {
+    1: <Tag color="warning">待审核</Tag>,
+    2: <Tag color="success">审核通过</Tag>,
+  };
   // 准备列数据
   const columns = [
     {
@@ -41,7 +45,8 @@ const Article = () => {
     {
       title: "状态",
       dataIndex: "status",
-      render: (data) => <Tag color="green">审核通过</Tag>,
+      // data 当前后端返回的status
+      render: (data) => status[data],
     },
     {
       title: "发布时间",
@@ -76,32 +81,40 @@ const Article = () => {
       },
     },
   ];
-  // 准备表格body数据
-  const data = [
-    {
-      id: "8218",
-      comment_count: 0,
-      cover: {
-        images: [],
-      },
-      like_count: 0,
-      pubdate: "2019-03-11 09:00:00",
-      read_count: 2,
-      status: 2,
-      title: "wkwebview离线化加载h5资源解决方案",
-    },
-  ];
+  const [reqData, setReqData] = useState({
+    status: "",
+    channel_id: "",
+    begin_pubdate: "",
+    end_pubdate: "",
+    page: 1,
+    per_page: 4,
+  });
   // 获取文章列表
   const [list, setList] = useState([]);
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
   useEffect(() => {
     const getList = async () => {
-      const res = await getArticleListAPI();
+      const res = await getArticleListAPI(reqData);
       setList(res.data.results);
-      setCount(res.data.total_count)
+      setCount(res.data.total_count);
     };
     getList();
-  }, []);
+  }, [reqData]);
+  // 筛选功能
+
+  // 获取当前的筛选数据
+  const onFinish = (value) => {
+    setReqData({
+      ...reqData,
+      channel_id: value.channel_id,
+      status: value.status,
+      begin_pubdate: value.date ? value.date[0].format("YYYY-MM-DD") : "",
+      end_pubdate: value.date ? value.date[1].format("YYYY-MM-DD") : "",
+    });
+    console.log(value);
+  };
+  // 重新拉取文章列表，渲染
+
   return (
     <div>
       <Card
@@ -115,7 +128,7 @@ const Article = () => {
         }
         style={{ marginBottom: 20 }}
       >
-        <Form initialValues={{ status: "" }}>
+        <Form initialValues={{ status: "" }} onFinish={onFinish}>
           <Form.Item label="状态" name="status">
             <Radio.Group>
               <Radio value={""}>全部</Radio>
@@ -127,7 +140,7 @@ const Article = () => {
           <Form.Item label="频道" name="channel_id">
             <Select placeholder="请选择文章频道" style={{ width: 120 }}>
               {channelList.map((item) => (
-                <Option key={item.id} value="{item.id}">
+                <Option key={item.id} value={item.id}>
                   {item.name}
                 </Option>
               ))}
