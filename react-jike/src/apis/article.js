@@ -17,3 +17,10 @@ export const createArticleAPI = (data) => {
     data,
   });
 };
+export const getArticleListAPI = (params) => {
+  return request({
+    url: "/mp/articles",
+    method: "GET",
+    params,
+  });
+};
