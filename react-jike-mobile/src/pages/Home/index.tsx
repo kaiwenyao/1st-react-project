@@ -1,9 +1,27 @@
-import React from 'react'
+import "./style.css";
+import { Tabs } from "antd-mobile";
+import { useTabs } from "./useTabs";
+import HomeList from "./HomeList";
 
 const Home = () => {
+  const { channels } = useTabs();
   return (
-    <div>Home</div>
-  )
-}
+    <div>
+      <div className="tabContainer">
+        <Tabs>
+          {channels.map((item) => {
+            return (
+              <Tabs.Tab title={item.name} key={item.id}>
+                <div className="listContainer">
+                  <HomeList channelId={"" + item.id} />
+                </div>
+              </Tabs.Tab>
+            );
+          })}
+        </Tabs>
+      </div>
+    </div>
+  );
+};
 
-export default Home
+export default Home;
