@@ -2,6 +2,7 @@ import { Image, InfiniteScroll, List } from "antd-mobile";
 // mock数据
 import { useEffect, useState } from "react";
 import { fetchListAPI, type ListRes } from "@/apis/list";
+import { useNavigate } from "react-router-dom";
 type Props = {
   channelId: string;
 };
@@ -28,7 +29,7 @@ const HomeList = (props: Props) => {
         pre_timestamp: res.data.data.pre_timestamp,
       });
       if (res.data.data.results.length === 0) {
-        setHasMore(false)
+        setHasMore(false);
       }
     } catch {
       throw new Error("fecth List error!!");
@@ -51,11 +52,17 @@ const HomeList = (props: Props) => {
     };
     getList();
   }, [channelId]);
+  const navigate = useNavigate();
+  const goToDetail = (id: string) => {
+    // 跳转
+    navigate(`/detail?id=${id}`);
+  };
   return (
     <>
       <List>
         {listRes.results.map((item) => (
           <List.Item
+            onClick={() => goToDetail(item.art_id)}
             key={item.art_id}
             prefix={
               <Image
